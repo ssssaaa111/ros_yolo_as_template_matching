@@ -62,7 +62,8 @@ def getBbox(mask, norm=False):
             return x, y, w, h
         else:
             return rmin, rmax, cmin, cmax
-    except:
+    except Exception as e:
+        # print(e)
         return None, None, None, None
 
 

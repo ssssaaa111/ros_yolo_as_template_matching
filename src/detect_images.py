@@ -37,20 +37,20 @@ if 1:  # Set path
 def set_inputs():
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--config_path", type=str,
-                        default=ROOT + "config/config.yaml",
+                        default=ROOT + "config/config2.yaml",
                         help="path to config file")
     parser.add_argument("-w", "--weights_path", type=str,
-                        default="weights/yolov3.weights",
+                        default=ROOT+"src/checkpoints/20231012160840/yolov3_ckpt_90.pth",
                         help="path to weights file")
     parser.add_argument("-t", "--src_data_type",
                         choices=['folder', 'video', 'webcam'],
                         required=False,
                         type=str,
-                        default="webcam",
+                        default="folder",
                         help="read data from a folder, video file, of webcam")
     parser.add_argument("-i", "--image_data_path", type=str,
                         required=False,
-                        default="none",
+                        default=ROOT+"test_data/img1",
                         help="depend on '--src_data_type', set this as: a folder, or a video file,")
     parser.add_argument("-o", "--output_folder", type=str,
                         required=False,

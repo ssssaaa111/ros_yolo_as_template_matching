@@ -1,6 +1,10 @@
 # -*- coding: future_fstrings -*-
 from __future__ import division
 
+import random
+
+import numpy as np
+
 ''' Datasets for image augmentation '''
 
 
@@ -24,9 +28,9 @@ def get_label(filename):
     e.g.: /folder/bottle_1.jpg --> bottle
     '''
 
-    if '/' in filename:
+    if '\\' in filename:
         # /folder/bottle_1.jpg --> bottle_1.jpg
-        filename = filename.split('/')[-1]
+        filename = filename.split('\\')[-1]
     if '_' in filename:
         label = filename.split('_')[0]
     else:
@@ -146,8 +150,8 @@ class TemplatesDataset():
 
     def get_ith_filenames(self, i, base_name_only=False):
         if base_name_only:
-            fimg = self.fnames_img[i].split('/')[-1]
-            fmask = self.fnames_mask[i].split('/')[-1]
+            fimg = self.fnames_img[i].split('\\')[-1]
+            fmask = self.fnames_mask[i].split('\\')[-1]
         else:
             fimg = self.fnames_img[i]
             fmask = self.fnames_mask[i]
@@ -156,7 +160,16 @@ class TemplatesDataset():
     def load_ith_image(self, i):
         fimg, fmask = self.get_ith_filenames(i)
         img = cv2.imread(fimg, cv2.IMREAD_COLOR)  # read as color image
+
         mask = pi.load_image_to_binary(fmask)
+
+        new_mask = np.round(mask).astype(np.uint8)
+        img[:, :, 0] = new_mask*random.randint(0, 255)
+        img[:, :, 1] = new_mask*random.randint(0, 255)
+        img[:, :, 2] = new_mask*random.randint(0, 255)
+        # cv2.imshow(fimg, img)
+
+
         if self.crop_mask:
             img, mask = pi.get_mask_region(img, mask)
         return img, mask

@@ -124,11 +124,12 @@ def augment_images(args):
         return np.random.randint(l, r+1)
 
     # Start
-    for ith_background in range(args.img_aug_nums["num_new_images"]):
-        print("Generating {}th augmented image ...".format(ith_background))
+    for ith_background in tqdm(range(args.img_aug_nums["num_new_images"])):
+        # print("Generating {}th augmented image ...".format(ith_background))
 
         # Read background image
         bg_img = get_random_background()
+
 
         # Vars to store
         masks = []
@@ -154,18 +155,24 @@ def augment_images(args):
 
         # Last augment (add noise to the new background image)
         bg_img = aug.augment_by_noises(bg_img)
-
         # Get/Save/Plot bounding boxt of background image
         bg_img_with_bbox = bg_img.copy()
+        useless_lable = []
         for i, mask in enumerate(masks):
 
             # Get bbox
             x, y, w, h = pi.getBbox(mask, norm=True)
-
+            if w is None:
+                useless_lable.append(i)
+                continue
             # Store and draw
             labels[i].extend([x, y, w, h])
             draw_bbox(bg_img_with_bbox, bbox=(x, y, w, h))
-
+        new_labels = []
+        for i in range(len(labels)):
+            if i not in useless_lable:
+                new_labels.append(labels[i])
+        labels = new_labels
         # Display the new background image
         if 0:
             # show((tp_img, tp_mask), figsize=(10, 5))

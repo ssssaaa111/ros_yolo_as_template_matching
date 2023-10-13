@@ -33,13 +33,13 @@ if 1:  # Set path
 def set_inputs():
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--image_filename", type=str,
-                        default=ROOT + "test_data/images/00014.png",
+                        default=ROOT + "test_data/images/00050.jpg",
                         help="filename of the image")
     parser.add_argument("-w", "--weights_path", type=str,
-                        default=ROOT + "weights/yolo_trained.pth",
+                        default=ROOT + "src/checkpoints/20231012160840/yolov3_ckpt_90.pth",
                         help="path to weights file")
     parser.add_argument("-c", "--config_path", type=str,
-                        default=ROOT + "config/config.yaml",
+                        default=ROOT + "config/config2.yaml",
                         help="path to config file")
     parser.add_argument("-o", "--output_folder", type=str,
                         default=ROOT + "output/",

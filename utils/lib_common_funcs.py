@@ -25,7 +25,8 @@ def create_folder(folder):
 def get_filenames(folder, file_types=('*.jpg', '*.png')):
     filenames = []
     for file_type in file_types:
-        filenames.extend(glob.glob(folder + "/" + file_type))
+        # filenames.extend(glob.glob(folder + "/" + file_type))
+        filenames.extend(glob.glob(folder + "\\" + file_type))
     filenames.sort()
     return filenames
 
@@ -81,12 +82,12 @@ def copy_files(src_filenames, dst_folder):
 def split_name(name):
     # "/usr/lib/image.jpg" --> ["/usr/lib", "image", ".jpg"]
     pre, ext = os.path.splitext(name)
-    if "/" in pre:
-        p = pre.rindex('/')
+    if "\\" in pre:
+        p = pre.rindex('\\')
         path = pre[:p]
         name = pre[p+1:]
     else:
-        path = "./"
+        path = ".\\"
         name = pre
     return path, name, ext
 
